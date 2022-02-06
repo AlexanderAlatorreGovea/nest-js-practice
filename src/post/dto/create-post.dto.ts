@@ -1,15 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePostDto {
-  @IsString({ each: true })
-  @IsNotEmpty()
-  paragraphs: string[];
-
-  @IsString()
-  @IsNotEmpty()
+  content: string;
   title: string;
-
-  @IsString()
-  id: number;
-
 }

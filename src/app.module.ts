@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostModule } from './post/post.module';
 import * as Joi from '@hapi/joi';
+import { DatabaseModule } from './database.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import * as Joi from '@hapi/joi';
         PORT: Joi.number(),
       }),
     }),
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
