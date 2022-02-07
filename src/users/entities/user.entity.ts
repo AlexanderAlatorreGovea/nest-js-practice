@@ -14,5 +14,3 @@ export class User {
   @Column()
   public password: string;
 }
-
-export default User;

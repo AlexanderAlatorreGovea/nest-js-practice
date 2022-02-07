@@ -4,24 +4,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostModule } from './post/post.module';
 import * as Joi from '@hapi/joi';
-import { DatabaseModule } from './database.module';
+import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { POSTGRES_DATABASE } from './database/postgresConfig';
 
 @Module({
   imports: [
     PostModule,
-    ConfigModule.forRoot({
-      validationSchema: Joi.object({
-        POSTGRES_HOST: Joi.string().required(),
-        POSTGRES_PORT: Joi.number().required(),
-        POSTGRES_USER: Joi.string().required(),
-        POSTGRES_PASSWORD: Joi.string().required(),
-        POSTGRES_DB: Joi.string().required(),
-        PORT: Joi.number(),
-      }),
-    }),
+    ConfigModule.forRoot(POSTGRES_DATABASE),
     DatabaseModule,
     UsersModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
