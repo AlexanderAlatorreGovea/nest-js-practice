@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi';
+import * as Joi from '@hapi/joi';
 
 export const POSTGRES_DATABASE = {
   validationSchema: Joi.object({
@@ -8,5 +8,7 @@ export const POSTGRES_DATABASE = {
     POSTGRES_PASSWORD: Joi.string().required(),
     POSTGRES_DB: Joi.string().required(),
     PORT: Joi.number(),
+    JWT_SECRET: Joi.string().required(),
+    JWT_EXPIRATION_TIME: Joi.string().required(),
   }),
 } as const;

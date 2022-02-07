@@ -1,34 +1,56 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  Req,
+  UseGuards,
+  Res,
+  Get,
+} from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
-import { CreateAuthenticationDto } from './dto/create-authentication.dto';
-import { UpdateAuthenticationDto } from './dto/update-authentication.dto';
+import { Response } from 'express';
+import RegisterDto from './dto/register.dto';
+import RequestWithUser from './interfaces/requestWithUser.interface';
+import JwtAuthenticationGuard from './jwt-authentication.guard';
+import { LocalAuthenticationGuard } from './localAuthentication.guard';
 
 @Controller('authentication')
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
   @Post()
-  create(@Body() createAuthenticationDto: CreateAuthenticationDto) {
-    return this.authenticationService.create(createAuthenticationDto);
+  register(@Body() registrationData: RegisterDto) {
+    return this.authenticationService.register(registrationData);
   }
 
+  @HttpCode(200)
+  @UseGuards(LocalAuthenticationGuard)
+  @Post('log-in')
+  async logIn(@Req() request: RequestWithUser) {
+    const user = request.user;
+    user.password = undefined;
+    return user;
+  }
+
+  @UseGuards(JwtAuthenticationGuard)
+  @Post('log-out')
+  async logOut(@Res() response: Response) {
+    response.setHeader(
+      'Set-Cookie',
+      this.authenticationService.getCookieForLogOut(),
+    );
+
+    return response.sendStatus(200);
+  }
+
+  @UseGuards(JwtAuthenticationGuard)
   @Get()
-  findAll() {
-    return this.authenticationService.findAll();
-  }
+  authenticate(@Req() request: RequestWithUser) {
+    const user = request.user;
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authenticationService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthenticationDto: UpdateAuthenticationDto) {
-    return this.authenticationService.update(+id, updateAuthenticationDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authenticationService.remove(+id);
+    user.password = undefined;
+    
+    return user;
   }
 }
