@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as cookieParser from 'cookie-parser';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const port = +process.env.APP_PORT || 3000;
+  app.setGlobalPrefix('api');
+  console.log('Port running on: ', port);
 
-  app.use(cookieParser());
+  app.enableCors();
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();
