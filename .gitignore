@@ -17,6 +17,10 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
+# postgres storage
+/pgadmin-data
+/pgdata
+
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries

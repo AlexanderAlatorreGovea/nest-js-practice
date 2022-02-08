@@ -6,12 +6,12 @@ import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import typeOrmConfig from './typeorm.config';
+import * as typeOrmConfig from './typeorm.config';
 
 @Module({
   imports: [
-    PostModule,
     TypeOrmModule.forRoot(typeOrmConfig),
+    PostModule,
     DatabaseModule,
     UsersModule,
     AuthenticationModule,
