@@ -17,10 +17,6 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 
-# postgres storage
-/pgadmin-data
-/pgdata
-
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
@@ -303,6 +299,10 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 
+# postgres storage
+pgadmin-data/
+pgdata/
+
 # Typescript v1 declaration files
 typings/
 
@@ -402,4 +402,3 @@ docker.env
 .env
 dist
 docker-compose.yml
-
